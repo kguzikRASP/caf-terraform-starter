@@ -1,0 +1,230 @@
+tfstates:
+  platform:
+    launchpad:
+      lz_key_name: launchpad
+      tfstate: caf_launchpad.tfstate
+      workspace: tfstate
+      level: level0
+      identity_aad_key: cred_level0
+      config_file: launchpad.yaml
+      sub_template_folder: platform/level0/launchpad
+      tfstate_key_name: launchpad
+
+    launchpad_credentials:
+      lz_key_name: launchpad_credentials
+      tfstate: launchpad_credentials.tfstate
+      level: level0
+      identity_aad_key: cred_identity
+      config_file: credentials.yaml
+      sub_template_folder: platform/level0/credentials
+      tfstate_key_name: launchpad_credentials
+
+    platform_subscriptions:
+      lz_key_name: subscriptions
+      tfstate: platform_subscriptions.tfstate
+      level: level1
+      identity_aad_key: cred_subscription_creation_platform
+      config_file: platform_subscriptions.yaml
+      tfstate_key_name: platform_subscriptions
+
+    identity:
+      lz_key_name: identity
+      tfstate: identity.tfstate
+      level: level1
+      identity_aad_key: cred_identity
+      config_file: identity.yaml
+      sub_template_folder: platform/level1/identity
+      tfstate_key_name: identity
+
+    management:
+      lz_key_name: management
+      tfstate: management.tfstate
+      level: level1
+      identity_aad_key: cred_management
+      config_file: management.yaml
+      sub_template_folder: platform/level1/management
+      tfstate_key_name: management
+
+    asvm:
+      lz_key_name: asvm
+      tfstate: asvm_subscription_vending_machine.tfstate
+      level: level2
+      config_file: asvm.yaml
+      identity_aad_key: cred_level0
+      sub_template_folder: platform/level2/asvm
+      tfstate_key_name: asvm
+
+    security:
+      lz_key_name: security
+      tfstate: security.tfstate
+      level: level1
+      identity_aad_key: cred_management
+      config_file: security.yaml
+      tfstate_key_name: security
+
+    gitops_agents:
+      lz_key_name: gitops_agents
+      tfstate: gitops_agents.tfstate
+      workspace: tfstate
+      level: level0
+      identity_aad_key: cred_level0
+      config_file: gitops_agents.yaml
+      sub_template_folder: platform/level0/gitops_agents
+      tfstate_key_name: gitops_agents
+
+
+    alz_es:
+      lz_key_name: alz_es
+      tfstate: alz_es.tfstate
+      level: level1
+      identity_aad_key: cred_alz
+      config_file: alz_es.yaml
+      template_lib_folder: platform/level1/alz
+      sub_template_folder: platform/level1/alz
+      yaml: platform/level1/alz/ansible.yaml
+      alz_version: v1.1.3
+      tfstate_key_name: alz_es
+
+
+
+    identity_level2:
+      prod:
+        lz_key_name: identity_level2_prod
+        tfstate: identity_level2_prod.tfstate
+        level: level2
+        config_file: identity_level2.yaml
+        identity_aad_key: cred_identity
+        tfstate_key_name: identity_level2
+      non_prod:
+        lz_key_name: identity_level2_non_prod
+        tfstate: identity_level2_non_prod.tfstate
+        level: level2
+        config_file: identity_level2.yaml
+        identity_aad_key: cred_identity
+        tfstate_key_name: identity_level2
+
+    virtual_wans:
+      prod:
+        lz_key_name: connectivity_virtual_wans_prod
+        tfstate: connectivity_virtual_wans_prod.tfstate
+        level: level2
+        config_file: virtual_wans.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: virtual_wans
+
+    virtual_hubs:
+      prod:
+        lz_key_name: connectivity_virtual_hubs_prod
+        tfstate: connectivity_virtual_hubs_prod.tfstate
+        workspace: tfstate
+        level: level2
+        config_file: virtual_hubs.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: virtual_hubs
+      non_prod:
+        lz_key_name: connectivity_virtual_hubs_non_prod
+        tfstate: connectivity_virtual_hubs_non_prod.tfstate
+        workspace: tfstate
+        level: level2
+        config_file: virtual_hubs.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: virtual_hubs
+
+    virtual_hubs_route_tables:
+      prod:
+        lz_key_name: virtual_hubs_route_tables_prod
+        tfstate: connectivity_virtual_hubs_route_tables_prod.tfstate
+        workspace: tfstate
+        level: level2
+        config_file: virtual_hubs_route_tables.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: virtual_hubs_route_tables
+      non_prod:
+        lz_key_name: virtual_hubs_route_tables_non_prod
+        tfstate: connectivity_virtual_hubs_route_tables_non_prod.tfstate
+        workspace: tfstate
+        level: level2
+        config_file: virtual_hubs_route_tables.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: virtual_hubs_route_tables
+
+    azurerm_firewall_policies:
+      prod:
+        lz_key_name: connectivity_firewall_policies_prod
+        tfstate: connectivity_firewall_policies_prod.tfstate
+        level: level2
+        config_file: azurerm_firewall_policies.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: azurerm_firewall_policies
+      non_prod:
+        lz_key_name: connectivity_firewall_policies_non_prod
+        tfstate: connectivity_firewall_policies_non_prod.tfstate
+        level: level2
+        config_file: azurerm_firewall_policies.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: azurerm_firewall_policies
+
+    secure_firewalls:
+      prod:
+        lz_key_name: connectivity_secure_firewalls_prod
+        tfstate: connectivity_secure_firewalls_prod.tfstate
+        level: level2
+        config_file: connectivity_secure_firewalls.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: secure_firewalls
+      non_prod:
+        lz_key_name: connectivity_secure_firewalls_non_prod
+        tfstate: connectivity_secure_firewalls_non_prod.tfstate
+        level: level2
+        config_file: connectivity_secure_firewalls.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: secure_firewalls
+
+    private_dns_firewalls:
+      prod:
+        lz_key_name: connectivity_private_dns_firewalls_prod
+        tfstate: connectivity_private_dns_firewalls_prod.tfstate
+        level: level2
+        config_file: connectivity_private_dns_firewalls.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: private_dns_firewalls
+      non_prod:
+        lz_key_name: connectivity_private_dns_firewalls_non_prod
+        tfstate: connectivity_private_dns_firewalls_non_prod.tfstate
+        level: level2
+        config_file: connectivity_private_dns_firewalls.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: private_dns_firewalls
+
+    private_dns:
+      prod:
+        lz_key_name: connectivity_private_dns_prod
+        tfstate: connectivity_private_dns_prod.tfstate
+        level: level2
+        config_file: private_dns.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: private_dns
+      non_prod:
+        lz_key_name: connectivity_private_dns_non_prod
+        tfstate: connectivity_private_dns_non_prod.tfstate
+        level: level2
+        config_file: private_dns.yaml
+        identity_aad_key: cred_connectivity
+        tfstate_key_name: private_dns
+
+    security_level2:
+      prod:
+        lz_key_name: security_level2_prod
+        tfstate: security_level2_prod.tfstate
+        level: level2
+        config_file: security_level2.yaml
+        identity_aad_key: cred_identity
+        tfstate_key_name: security_level2
+      non_prod:
+        lz_key_name: security_level2_non_prod
+        tfstate: security_level2_non_prod.tfstate
+        level: level2
+        config_file: security_level2.yaml
+        identity_aad_key: cred_identity
+        tfstate_key_name: security_level2
+

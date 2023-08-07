@@ -1,0 +1,102 @@
+private_dns_firewalls_non_prod:
+  gitops:
+    caf_landingzone_branch: rasptest
+
+  relative_destination_folder: level2/connectivity/private_dns_firewalls/non_prod
+
+  tfstate:
+    lz_key_name: connectivity_private_dns_firewalls_non_prod
+    tfstate: connectivity_private_dns_firewalls_non_prod.tfstate
+    level: level2
+    config_file: connectivity_private_dns_firewalls.yaml
+    identity_aad_key: cred_connectivity
+    # Do not rename the tfstate_key_name
+    tfstate_key_name: private_dns_firewalls
+
+  deployments:
+    landingzone:
+      global_settings_key:
+        platform:
+          virtual_hubs: non_prod
+      remote_tfstates:
+        platform:
+          virtual_hubs: non_prod
+          azurerm_firewall_policies: non_prod
+
+
+  resources:
+    connectivity:
+      resource_groups:
+          firewall:
+            name: connectivity-non_prod-firewall
+            region_key: region1
+
+
+      virtual_networks:
+        vnet:
+          name: vnet-connectivity-non_prod-fw-plinks
+          resource_group_key: firewall
+          region_key: region1
+          address_space: 
+            ['10.101.62.0/24']
+          specialsubnets:
+            AzureFirewallSubnet:
+              name: AzureFirewallSubnet
+              cidr:
+                ['10.101.62.0/24']
+
+      public_ip_addresses:
+        fw_pip1:
+          name: pip-non_prod-fw-01
+          resource_group_key: firewall
+          sku: Standard
+          allocation_method: Static
+          ip_version: IPv4
+          idle_timeout_in_minutes: 4
+
+      azurerm_firewalls:
+        fw_non_prod_dns:
+          name: dns-non_prod-01
+          resource_group_key: firewall
+          vnet_key: vnet
+          sku_tier: Standard
+          firewall_policy:
+            key: private_links
+          zones:
+            - 1
+            - 2
+            - 3
+          public_ips:
+            ip1:
+              name: pip1
+              public_ip_key: fw_pip1
+              vnet_key: vnet
+              subnet_key: AzureFirewallSubnet
+              
+      azurerm_firewall_policies:
+        private_links:
+          name: "private-links-non_prod"
+          region_key: region1
+          resource_group:
+            key: firewall
+          dns:
+            proxy_enabled: true
+          threat_intelligence_mode: "Alert"
+
+      virtual_hub_connections:
+        vnet_to_hub:
+          name: vnet-connectivity-non_prod-fw-plinks-TO-vhub-non_prod
+          virtual_hub:
+            lz_key: connectivity_virtual_hubs_non_prod
+            key: non_prod
+          vnet:
+            vnet_key: vnet
+          # to route internet traffic through firewall in secure hub, set internet_security_enabled to true
+          internet_security_enabled: true
+          routing:
+            firewall_manager:
+              virtual_hub_route_table_key: defaultRouteTable
+              propagated_route_table:
+                labels: ["none"] # To route vnet to vnet traffic through firewall manager (private traffic)
+                virtual_hub_route_table_keys:
+                  - noneRouteTable # Route internet traffic through firewall manager (private traffic)

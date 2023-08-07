@@ -1,0 +1,32 @@
+{
+    "landing-zones": {
+        "policy_assignments": [
+            "Deny-IP-Forwarding",
+            "Deny-Priv-Containers-AKS",
+            "Deny-Priv-Escalation-AKS",
+            "Deny-Private-DNS-Zones",
+            "Deny-RDP-From-Internet",
+            "Deny-Storage-http",
+            "Deploy-AKS-Policy",
+            "Deploy-SQL-DB-Auditing",
+            "Deploy-SQL-Threat",
+            "Enable-DDoS-VNET",
+            "Enforce-AKS-HTTPS",
+            "Enforce-TLS-SSL",
+            "CAF-Deploy-Nsg-FlowLogs",
+            "Deny-Public-Endpoints"
+        ],
+        "policy_definitions": [
+        ],
+        "policy_set_definitions": [
+        ],
+        "role_definitions": [
+        ],
+        "archetype_config": {
+            "parameters": {
+            },
+            "access_control": {
+            }
+        }
+    }
+}

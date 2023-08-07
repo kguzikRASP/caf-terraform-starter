@@ -1,0 +1,50 @@
+secure_firewalls_prod:
+  gitops:
+    caf_landingzone_branch: rasptest
+
+  relative_destination_folder: level2/connectivity/secure_firewalls/prod
+
+  tfstate:
+    lz_key_name: connectivity_secure_firewalls_prod
+    tfstate: connectivity_secure_firewalls_prod.tfstate
+    level: level2
+    config_file: connectivity_secure_firewalls.yaml
+    identity_aad_key: cred_connectivity
+    # Do not rename the tfstate_key_name
+    tfstate_key_name: secure_firewalls
+
+  deployments:
+    landingzone:
+      global_settings_key:
+        platform:
+          virtual_hubs: prod
+      remote_tfstates:
+        platform:
+          virtual_hubs: prod
+          azurerm_firewall_policies: prod
+
+
+  resources:
+    connectivity:
+      resource_groups:
+          firewall:
+            name: connectivity-prod-secure-firewall
+            region_key: region1
+      azurerm_firewalls:
+        fw_secure_prod:
+          name: fw-secure-prod
+          resource_group_key: firewall
+          sku_name: AZFW_Hub
+          sku_tier: Standard
+          virtual_hub:
+            prod:
+              lz_key: connectivity_virtual_hubs_prod
+              virtual_hub_key: prod
+          public_ip_count: 1
+          firewall_policy:
+            key: fw_secure_prod
+            lz_key: connectivity_firewall_policies_prod
+          zones:
+            - 1
+            - 2
+            - 3

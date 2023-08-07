@@ -1,0 +1,20 @@
+{
+    "platform_decommissioned": {
+        "policy_assignments": [
+            "Deny-IP-Forwarding",
+            "Deny-Private-DNS-Zones"
+        ],
+        "policy_definitions": [
+        ],
+        "policy_set_definitions": [
+        ],
+        "role_definitions": [
+        ],
+        "archetype_config": {
+            "parameters": {
+            },
+            "access_control": {
+            }
+        }
+    }
+}

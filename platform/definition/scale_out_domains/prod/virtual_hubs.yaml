@@ -1,0 +1,64 @@
+virtual_hubs_prod:
+  gitops:
+    caf_landingzone_branch: rasptest
+
+  relative_destination_folder: level2/connectivity/virtual_hubs/prod
+
+  tfstate:
+    lz_key_name: connectivity_virtual_hubs_prod
+    tfstate: connectivity_virtual_hubs_prod.tfstate
+    workspace: tfstate
+    level: level2
+    config_file: virtual_hubs.yaml
+    identity_aad_key: cred_connectivity
+    # Do not rename the tfstate_key_name
+    tfstate_key_name: virtual_hubs
+
+  deployments:
+    landingzone:
+      global_settings_key:
+        platform:
+          virtual_wans: prod
+      remote_tfstates:
+        platform:
+          virtual_wans: prod
+    custom_variables:
+      virtual_hub_lz_key: connectivity_virtual_hubs_prod
+      # ddos_protection_plan_id:
+
+  resources:
+    connectivity:
+      virtual_hubs:
+        prod:
+          name: prod
+          virtual_wan:
+            lz_key: connectivity_virtual_wans_prod
+            key: global_wan
+          region_key: region1
+          hub_address_prefix: 10.101.51.0/24
+          deploy_s2s: false
+          s2s_config:
+            name: prod
+            scale_unit: 1
+          deploy_er: false
+          er_config:
+            name: prod
+            scale_units: 1
+          deploy_p2s: false
+          p2s_config:
+            name: prod
+            scale_units: 1
+
+      express_route_connections:
+        prod:
+          enable_er_connections: false
+          name: er-1-prod
+          virtual_hub:
+            key: prod
+          circuit_peering:
+            tfstate_key: prod
+            key: private_peering
+          express_route_circuit_authorization:
+            tfstate_key: prod
+            key: vhub-prod
+

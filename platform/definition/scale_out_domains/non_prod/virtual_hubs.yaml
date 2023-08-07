@@ -1,0 +1,64 @@
+virtual_hubs_non_prod:
+  gitops:
+    caf_landingzone_branch: rasptest
+
+  relative_destination_folder: level2/connectivity/virtual_hubs/non_prod
+
+  tfstate:
+    lz_key_name: connectivity_virtual_hubs_non_prod
+    tfstate: connectivity_virtual_hubs_non_prod.tfstate
+    workspace: tfstate
+    level: level2
+    config_file: virtual_hubs.yaml
+    identity_aad_key: cred_connectivity
+    # Do not rename the tfstate_key_name
+    tfstate_key_name: virtual_hubs
+
+  deployments:
+    landingzone:
+      global_settings_key:
+        platform:
+          virtual_wans: prod
+      remote_tfstates:
+        platform:
+          virtual_wans: prod
+    custom_variables:
+      virtual_hub_lz_key: connectivity_virtual_hubs_non_prod
+      # ddos_protection_plan_id:
+
+  resources:
+    connectivity:
+      virtual_hubs:
+        non_prod:
+          name: non-prod
+          virtual_wan:
+            lz_key: connectivity_virtual_wans_prod
+            key: global_wan
+          region_key: region1
+          hub_address_prefix: 10.101.52.0/24
+          deploy_s2s: false
+          s2s_config:
+            name: non_prod
+            scale_unit: 1
+          deploy_er: false
+          er_config:
+            name: non_prod
+            scale_units: 1
+          deploy_p2s: false
+          p2s_config:
+            name: non_prod
+            scale_units: 1
+
+      express_route_connections:
+        non_prod:
+          enable_er_connections: false
+          name: er-1-non_prod
+          virtual_hub:
+            key: non_prod
+          circuit_peering:
+            tfstate_key: non_prod
+            key: private_peering
+          express_route_circuit_authorization:
+            tfstate_key: non_prod
+            key: vhub-non_prod
+

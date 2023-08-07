@@ -1,0 +1,47 @@
+platform_subscriptions:
+  gitops:
+    caf_landingzone_branch: rasptest
+
+  relative_destination_folder: level1/subscriptions
+
+  tfstate:
+    lz_key_name: subscriptions
+    tfstate: platform_subscriptions.tfstate
+    level: level1
+    identity_aad_key: cred_subscription_creation_platform
+    config_file: platform_subscriptions.yaml
+    # Do not rename the tfstate_key_name
+    tfstate_key_name: platform_subscriptions
+
+  deployments:
+    landingzone:
+      global_settings_key:
+        platform:
+          launchpad:
+      remote_tfstates:
+        platform:
+          launchpad:
+
+  resources:
+    launchpad:
+      subscriptions:
+        launchpad:
+          name: management
+          create_alias: false
+          subscription_id: adf613cb-49e2-4495-9b6f-e18d05a72ad1
+        identity:
+          name: identity
+          create_alias: false
+          subscription_id: 4ab307c0-61d0-41af-afc5-5e90c04fee4c
+        connectivity:
+          name: connectivity
+          create_alias: false
+          subscription_id: adf613cb-49e2-4495-9b6f-e18d05a72ad1
+        management:
+          name: management
+          create_alias: false
+          subscription_id: adf613cb-49e2-4495-9b6f-e18d05a72ad1
+        security:
+          name: security
+          create_alias: false
+          subscription_id: 4ab307c0-61d0-41af-afc5-5e90c04fee4c

@@ -1,0 +1,157 @@
+gitops_agents:
+  gitops:
+    caf_landingzone_branch: rasptest
+
+  relative_destination_folder: level0/gitops_agents
+
+  tfstate:
+    lz_key_name: gitops_agents
+    tfstate: gitops_agents.tfstate
+    workspace: tfstate
+    level: level0
+    identity_aad_key: cred_level0
+    config_file: gitops_agents.yaml
+    sub_template_folder: platform/level0/gitops_agents
+    # Do not rename the tfstate_key_name
+    tfstate_key_name: gitops_agents
+
+  deployments:
+    landingzone:
+      global_settings_key:
+        platform:
+          launchpad:
+      remote_tfstates:
+        platform:
+          launchpad:
+
+  resources:
+    launchpad:
+
+      container_groups:
+        level0:
+          name: rover-platform
+          region: region1
+          resource_group:
+            lz_key: launchpad
+            key: gitops
+          ip_address_type: Private
+          os_type: Linux
+          restart_policy: Never
+          network_profile:
+            key: level0
+          containers:
+            rover_level0:
+              name: rover-level0
+              image: aztfmod/rover-agent:1.1.9-2206.301920-preview-github
+              cpu: 4
+              memory: 2
+              ports:
+                ssh:
+                  port: 22
+                  protocol: TCP
+              environment_variables:
+                AGENT_NAME: rover_level0
+                LABELS: platform,master
+                ROVER_RUNNER: true
+                URL: https://github.com/kguzikRASP/caf-terraform-landingzones
+              secure_environment_variables:
+                AGENT_TOKEN: BBWFLKTPSK3XU5TEND43UYTE2D5AM
+        agent0:
+          name: rover-platform-agent0
+          region: region1
+          resource_group:
+            lz_key: launchpad
+            key: gitops
+          ip_address_type: Private
+          os_type: Linux
+          restart_policy: Never
+          network_profile:
+            key: level0
+          containers:
+            rover_agent0:
+              name: rover-agent0
+              image: aztfmod/rover-agent:1.1.9-2206.301920-preview-github
+              cpu: 4
+              memory: 2
+              ports:
+                ssh:
+                  port: 22
+                  protocol: TCP
+              environment_variables:
+                AGENT_NAME: agent0
+                LABELS: platform
+                ROVER_RUNNER: true
+                URL: https://github.com/kguzikRASP/caf-terraform-landingzones
+              secure_environment_variables:
+                AGENT_TOKEN: BBWFLKTPSK3XU5TEND43UYTE2D5AM
+        agent1:
+          name: rover-platform-agent1
+          region: region1
+          resource_group:
+            lz_key: launchpad
+            key: gitops
+          ip_address_type: Private
+          os_type: Linux
+          restart_policy: Never
+          network_profile:
+            key: level0
+          containers:
+            rover_agent1:
+              name: rover-agent1
+              image: aztfmod/rover-agent:1.1.9-2206.301920-preview-github
+              cpu: 4
+              memory: 2
+              ports:
+                ssh:
+                  port: 22
+                  protocol: TCP
+              environment_variables:
+                AGENT_NAME: agent1
+                LABELS: platform
+                ROVER_RUNNER: true
+                URL: https://github.com/kguzikRASP/caf-terraform-landingzones
+              secure_environment_variables:
+                AGENT_TOKEN: BBWFLKTPSK3XU5TEND43UYTE2D5AM
+        agent2:
+          name: rover-platform-agent2
+          region: region1
+          resource_group:
+            lz_key: launchpad
+            key: gitops
+          ip_address_type: Private
+          os_type: Linux
+          restart_policy: Never
+          network_profile:
+            key: level0
+          containers:
+            rover_agent2:
+              name: rover-agent2
+              image: aztfmod/rover-agent:1.1.9-2206.301920-preview-github
+              cpu: 4
+              memory: 2
+              ports:
+                ssh:
+                  port: 22
+                  protocol: TCP
+              environment_variables:
+                AGENT_NAME: agent2
+                LABELS: platform
+                ROVER_RUNNER: true
+                URL: https://github.com/kguzikRASP/caf-terraform-landingzones
+              secure_environment_variables:
+                AGENT_TOKEN: BBWFLKTPSK3XU5TEND43UYTE2D5AM
+
+      network_profiles:
+        level0:
+          resource_group:
+            lz_key: launchpad
+            key: gitops
+          name: level0
+          container_network_interface:
+            name: level0
+            ip_configurations:
+              gitops:
+                name: ipconfig
+                lz_key: launchpad
+                vnet_key: vnet_region1
+                subnet_key: level0
